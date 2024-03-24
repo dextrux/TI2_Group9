@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4258833861178655109}
+  - component: {fileID: 1789243016816044715}
   m_Layer: 0
   m_Name: Tile 1
   m_TagString: Untagged
@@ -32,6 +33,20 @@ Transform:
   - {fileID: 2025192282567982601}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1789243016816044715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6518802914109694836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f8bdbeb79a8f454891b5725ea3d3d31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _player: {fileID: 0}
+  _tileManager: {fileID: 0}
 --- !u!1 &9036103686513650998
 GameObject:
   m_ObjectHideFlags: 0
@@ -43,10 +58,10 @@ GameObject:
   - component: {fileID: 2025192282567982601}
   - component: {fileID: 7277419208213659714}
   - component: {fileID: 2923582024751048369}
-  - component: {fileID: 675430549583606264}
+  - component: {fileID: 5183198472795919618}
   m_Layer: 0
   m_Name: Plane
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -116,8 +131,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &675430549583606264
-MeshCollider:
+--- !u!65 &5183198472795919618
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -134,7 +149,6 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+  serializedVersion: 3
+  m_Size: {x: 10, y: 1.8183334, z: 10}
+  m_Center: {x: 0, y: -0.9091667, z: 0}

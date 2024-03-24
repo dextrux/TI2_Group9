@@ -1,5 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 namespace Scenario
 {
@@ -21,12 +21,23 @@ namespace Scenario
                 SpawnTiles(Random.Range(0, _inactiveTiles.Count));
             }
         }
+        private void Update()
+        {
+            if (_tiles.Length - _inactiveTiles.Count <= _tileQuantity)
+            {
+                SpawnTiles(Random.Range(0, _inactiveTiles.Count));
+            }
+        }
+        internal void DisableTile(GameObject tile)
+        {
+            _inactiveTiles.Add(tile);
+            tile.SetActive(false);
+        }
         private void FindTiles()
         {
             foreach (GameObject tile in _tiles)
             {
-                _inactiveTiles.Add(tile);
-                tile.SetActive(false);
+                DisableTile(tile);
             }
         }
         private void SpawnTiles(int position)

@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Timeline;
 using UnityEngine;
 namespace Player
 {
@@ -21,16 +17,19 @@ namespace Player
         private float _jumpStartPosition;
         private Vector3 _targetPosition;
         private float _colliderStartHeight;
+        private Ray _ray;
+        private RaycastHit _hitinfo;
         private void Start()
         {
             _lane = 1;
             _colliderStartHeight = gameObject.GetComponent<BoxCollider>().size.y;
+            _ray = new Ray(transform.position, transform.up * -1);
         }
         private void Update()
         {
+            Gravity();
             Jumping();
             Sliding();
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(transform.position.x, _targetPosition.y, transform.position.z), _speed * Time.deltaTime);
         }
         private void FixedUpdate()
         {
@@ -66,7 +65,6 @@ namespace Player
         {
             if (_isJumping)
             {
-                Physics.gravity = new Vector3(0, -9.8F, 0);
                 float ratio = (transform.position.z - _jumpStartPosition) / _jumpLength;
                 if (ratio >= 1F)
                 {
@@ -75,15 +73,23 @@ namespace Player
                 else
                 {
                     _targetPosition.y = Mathf.Sin(ratio * Mathf.PI) * _jumpHeight;
+                    transform.position = Vector3.MoveTowards(transform.position, new Vector3(transform.position.x, _targetPosition.y, transform.position.z), _speed * Time.deltaTime);
                 }
             }
-            else if (!_isSliding)
+            else if (!_isSliding && _hitinfo.distance > 0.3)
             {
-                Physics.gravity = new Vector3(0, -9.8F, 0);
+                _rigidBody.AddForce(transform.up * -1 * _downSpeed, ForceMode.Impulse);
             }
-            else if (_isSliding)
+            else if (_isSliding && _hitinfo.distance > 0.3)
             {
-                Physics.gravity = new Vector3(0, -50, 0);
+                _rigidBody.AddForce(transform.up * -5 * _downSpeed, ForceMode.Impulse);
+            }
+        }
+        private void Gravity()
+        {
+            _ray.origin = transform.position;
+            if (Physics.Raycast(_ray, out _hitinfo, Mathf.Infinity))
+            {
             }
         }
         private void Sliding()
