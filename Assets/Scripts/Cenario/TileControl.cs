@@ -7,7 +7,7 @@ namespace Scenario
         [SerializeField] private Transform _player;
         [SerializeField] private TileManager _tileManager;
         [SerializeField] private float _distanceToDisable;
-        private void Awake()
+        private void OnEnable()
         {
             Transform[] _childrens = GetComponentsInChildren<Transform>();
             foreach (Transform t in _childrens)

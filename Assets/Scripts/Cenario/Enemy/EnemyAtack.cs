@@ -7,11 +7,13 @@ namespace Scenario.Enemy
     {
         [SerializeField] Transform _player;
         [SerializeField] float _distanceToPlayerAtack;
+        private AudioSource _audioSource;
         private bool _beingHitted;
         private float _distanceTimer;
         private float _startHitDistance;
         private void Start()
         {
+            _audioSource = GetComponent<AudioSource>();
             _startHitDistance = 0;
             _beingHitted = false;
         }
@@ -22,7 +24,7 @@ namespace Scenario.Enemy
                 GameManager.instance.GameOver();
             } else if (_player.position.z - transform.position.z <= 0 && _player.position.z - transform.position.z >= -3 && _beingHitted)
             {
-                Debug.Log("Inimigo Derrotado");
+                _audioSource.Play();
                 gameObject.SetActive(false);
             }
             if (_player.position.x != _startHitDistance)

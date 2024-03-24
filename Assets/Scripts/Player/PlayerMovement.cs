@@ -33,7 +33,7 @@ namespace Player
         }
         private void FixedUpdate()
         {
-            _rigidBody.velocity = transform.forward * _speed;
+            _rigidBody.velocity = transform.forward * (_speed + (transform.position.z/20));
             MoveBetweenLane();
         }
 
