@@ -53,6 +53,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Slide"",
+                    ""type"": ""Button"",
+                    ""id"": ""88fda3f6-d6c9-4bce-9a12-f31dce2bdb12"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -88,6 +97,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cba55344-fb2c-4890-8c81-a86b10fbe447"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Slide"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -99,6 +119,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Running_Right = m_Running.FindAction("Right", throwIfNotFound: true);
         m_Running_Left = m_Running.FindAction("Left", throwIfNotFound: true);
         m_Running_Jump = m_Running.FindAction("Jump", throwIfNotFound: true);
+        m_Running_Slide = m_Running.FindAction("Slide", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -163,6 +184,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Running_Right;
     private readonly InputAction m_Running_Left;
     private readonly InputAction m_Running_Jump;
+    private readonly InputAction m_Running_Slide;
     public struct RunningActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -170,6 +192,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @Right => m_Wrapper.m_Running_Right;
         public InputAction @Left => m_Wrapper.m_Running_Left;
         public InputAction @Jump => m_Wrapper.m_Running_Jump;
+        public InputAction @Slide => m_Wrapper.m_Running_Slide;
         public InputActionMap Get() { return m_Wrapper.m_Running; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -188,6 +211,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
+            @Slide.started += instance.OnSlide;
+            @Slide.performed += instance.OnSlide;
+            @Slide.canceled += instance.OnSlide;
         }
 
         private void UnregisterCallbacks(IRunningActions instance)
@@ -201,6 +227,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
+            @Slide.started -= instance.OnSlide;
+            @Slide.performed -= instance.OnSlide;
+            @Slide.canceled -= instance.OnSlide;
         }
 
         public void RemoveCallbacks(IRunningActions instance)
@@ -223,5 +252,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnRight(InputAction.CallbackContext context);
         void OnLeft(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnSlide(InputAction.CallbackContext context);
     }
 }

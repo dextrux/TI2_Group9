@@ -1,17 +1,25 @@
 using Manager;
 using UnityEngine;
 
-public class PlayerLife : MonoBehaviour
+namespace Player
 {
-    private void OnTriggerEnter(Collider other)
+    public class PlayerLife : MonoBehaviour
     {
-        if (other.CompareTag("Obstacle"))
+        private void OnTriggerEnter(Collider other)
         {
-            GameManager.instance.GameOver();
-        } else if (other.CompareTag("Collectable"))
-        {
-            GameManager.instance.AddPezinho();
-            other.gameObject.SetActive(false);
+            if (other.CompareTag("Obstacle"))
+            {
+                GameManager.instance.GameOver();
+            }
+            else if (other.CompareTag("Collectable"))
+            {
+                GameManager.instance.AddPezinho();
+                other.gameObject.SetActive(false);
+            }
+            else if (other.CompareTag("Enemy"))
+            {
+
+            }
         }
     }
 }

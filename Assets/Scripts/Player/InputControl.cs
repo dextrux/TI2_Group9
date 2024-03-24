@@ -15,6 +15,12 @@ namespace Player
             _playerInputAction.Running.Right.performed += Right_performed;
             _playerInputAction.Running.Left.performed += Left_performed;
             _playerInputAction.Running.Jump.performed += Jump_performed;
+            _playerInputAction.Running.Slide.performed += Slide_performed;
+        }
+
+        private void Slide_performed(InputAction.CallbackContext obj)
+        {
+            _playerMovement.Slide();
         }
 
         private void Jump_performed(InputAction.CallbackContext obj)

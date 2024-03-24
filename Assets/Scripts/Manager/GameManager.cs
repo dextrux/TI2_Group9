@@ -43,7 +43,7 @@ namespace Manager
         public void AddPezinho()
         {
             _pezinhos++;
-            _pezinhoText.text = "Score: " + _pezinhos.ToString("000"); ;
+            _pezinhoText.text = "Pezinhos:" + _pezinhos.ToString("000"); ;
         }
     }
 }
