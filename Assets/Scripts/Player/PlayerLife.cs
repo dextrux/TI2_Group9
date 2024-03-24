@@ -8,6 +8,10 @@ public class PlayerLife : MonoBehaviour
         if (other.CompareTag("Obstacle"))
         {
             GameManager.instance.GameOver();
+        } else if (other.CompareTag("Collectable"))
+        {
+            GameManager.instance.AddPezinho();
+            other.gameObject.SetActive(false);
         }
     }
 }

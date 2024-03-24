@@ -11,7 +11,6 @@ namespace Scenario
         {
             if (_player.position.z - transform.position.z >= _distanceToDisable)
             {
-                Debug.Log("Desativando" + gameObject);
                 _tileManager.DisableTile(gameObject);
             }
         }

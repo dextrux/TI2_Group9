@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 namespace Manager
@@ -6,6 +7,10 @@ namespace Manager
     {
         public static GameManager instance;
         public bool Playing { get; private set; }
+        [SerializeField] private GameObject _gameOverScreen;
+        [SerializeField] private GameObject _inGameUI;
+        [SerializeField] private TextMeshProUGUI _pezinhoText;
+        private uint _pezinhos;
         private void Start()
         {
             if (instance == null)
@@ -21,6 +26,7 @@ namespace Manager
         {
             Time.timeScale = 1;
             Playing = true;
+            _pezinhos = 0;
         }
         public void PauseGame()
         {
@@ -30,7 +36,14 @@ namespace Manager
         public void GameOver()
         {
             PauseGame();
+            _gameOverScreen.SetActive(true);
+            _inGameUI.SetActive(false);
             Debug.Log("Game Over");
+        }
+        public void AddPezinho()
+        {
+            _pezinhos++;
+            _pezinhoText.text = "Score: " + _pezinhos.ToString("000"); ;
         }
     }
 }
