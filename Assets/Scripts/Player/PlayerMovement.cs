@@ -27,7 +27,6 @@ namespace Player
         }
         private void Update()
         {
-            Gravity();
             Jumping();
             Sliding();
         }
@@ -73,23 +72,8 @@ namespace Player
                 else
                 {
                     _targetPosition.y = Mathf.Sin(ratio * Mathf.PI) * _jumpHeight;
-                    transform.position = Vector3.MoveTowards(transform.position, new Vector3(transform.position.x, _targetPosition.y, transform.position.z), _speed * Time.deltaTime);
+                    _rigidBody.Move(new Vector3(transform.position.x, _targetPosition.y, transform.position.z), Quaternion.identity);
                 }
-            }
-            else if (!_isSliding && _hitinfo.distance > 0.3)
-            {
-                _rigidBody.AddForce(transform.up * -1 * _downSpeed, ForceMode.Impulse);
-            }
-            else if (_isSliding && _hitinfo.distance > 0.3)
-            {
-                _rigidBody.AddForce(transform.up * -5 * _downSpeed, ForceMode.Impulse);
-            }
-        }
-        private void Gravity()
-        {
-            _ray.origin = transform.position;
-            if (Physics.Raycast(_ray, out _hitinfo, Mathf.Infinity))
-            {
             }
         }
         private void Sliding()
