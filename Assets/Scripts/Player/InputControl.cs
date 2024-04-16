@@ -15,11 +15,17 @@ namespace Player
             _playerInputAction.Running.Right.performed += Right_performed;
             _playerInputAction.Running.Left.performed += Left_performed;
             _playerInputAction.Running.Jump.performed += Jump_performed;
+            _playerInputAction.Running.Slide.performed += Slide_performed;
+        }
+
+        private void Slide_performed(InputAction.CallbackContext obj)
+        {
+            _playerMovement.Slide();
         }
 
         private void Jump_performed(InputAction.CallbackContext obj)
         {
-            throw new System.NotImplementedException();
+            _playerMovement.Jump();
         }
 
         private void Left_performed(InputAction.CallbackContext obj)
@@ -30,12 +36,6 @@ namespace Player
         private void Right_performed(InputAction.CallbackContext obj)
         {
             _playerMovement.ChangeLane(true);
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
         }
     }
 }
