@@ -41,10 +41,12 @@ namespace Player
             if (goRight && _lane < 2)
             {
                 _lane++;
+                AudioManager.Instance.TocarSFX(2);
             }
             if (!goRight && _lane > 0)
             {
                 _lane--;
+                AudioManager.Instance.TocarSFX(2);
             }
         }
         private void MoveBetweenLane()

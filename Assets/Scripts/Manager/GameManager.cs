@@ -9,13 +9,13 @@ namespace Manager
         public bool Playing { get; private set; }
         [SerializeField] private GameObject _gameOverScreen;
         [SerializeField] private GameObject _inGameUI;
-        [SerializeField] private TextMeshProUGUI _pezinhoText;
-        private uint _pezinhos;
-        private void Start()
+        private uint _footPrint;
+        private void Awake()
         {
             if (instance == null)
             {
                 instance = this;
+                DontDestroyOnLoad(gameObject);
             }
             else
             {
@@ -26,7 +26,7 @@ namespace Manager
         {
             Time.timeScale = 1;
             Playing = true;
-            _pezinhos = 0;
+            _footPrint = 0;
         }
         public void PauseGame()
         {
@@ -42,8 +42,7 @@ namespace Manager
         }
         public void AddPezinho()
         {
-            _pezinhos++;
-            _pezinhoText.text = "Pezinhos:" + _pezinhos.ToString("000"); ;
+            _footPrint++;
         }
     }
 }
