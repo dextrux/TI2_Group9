@@ -1,41 +1,46 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 namespace Player
 {
     public class InputControl : MonoBehaviour
     {
+        Vector2 startTouchPos, endTouchPos;
         [SerializeField] private PlayerMovement _playerMovement;
-        private PlayerInputActions _playerInputAction;
-        void Start()
+        private void Update()
         {
-            _playerInputAction = new PlayerInputActions();
-            _playerInputAction.Running.Enable();
-            _playerInputAction.Running.Right.performed += Right_performed;
-            _playerInputAction.Running.Left.performed += Left_performed;
-            _playerInputAction.Running.Jump.performed += Jump_performed;
-            _playerInputAction.Running.Slide.performed += Slide_performed;
+            GetInput();
         }
-
-        private void Slide_performed(InputAction.CallbackContext obj)
+        private void GetInput()
         {
-            _playerMovement.Slide();
-        }
-
-        private void Jump_performed(InputAction.CallbackContext obj)
-        {
-            _playerMovement.Jump();
-        }
-
-        private void Left_performed(InputAction.CallbackContext obj)
-        {
-            _playerMovement.ChangeLane(false);
-        }
-
-        private void Right_performed(InputAction.CallbackContext obj)
-        {
-            _playerMovement.ChangeLane(true);
+            if (Input.touchCount > 0)
+            {
+                Touch firstTouch = Input.GetTouch(0);
+                if (firstTouch.phase == UnityEngine.TouchPhase.Began)
+                {
+                    startTouchPos = firstTouch.position;
+                    endTouchPos = firstTouch.position;
+                }
+                if (firstTouch.phase == UnityEngine.TouchPhase.Ended)
+                {
+                    endTouchPos = firstTouch.position;
+                    if (startTouchPos.x > endTouchPos.x)
+                    {
+                        _playerMovement.ChangeLane(false);
+                    }
+                    if (startTouchPos.x < endTouchPos.x)
+                    {
+                        _playerMovement.ChangeLane(true);
+                    }
+                    if (startTouchPos.y < endTouchPos.y)
+                    {
+                        _playerMovement.Jump();
+                    }
+                    if (startTouchPos.y > endTouchPos.y)
+                    {
+                        _playerMovement.Slide();
+                    }
+                }
+            }
         }
     }
 }
