@@ -187,8 +187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _player: {fileID: 2928157633827804001, guid: 680b601c8e2b4ec4e8ae49a4913126c5, type: 3}
-  _tileManager: {fileID: 8485934164263581270, guid: af38e2fd057d32c42be86fcac5d39c18,
-    type: 3}
+  _tileManager: {fileID: 0}
   _distanceToDisable: 50
 --- !u!1 &6163251120539672746
 GameObject:
