@@ -18,4 +18,8 @@ public class InGameUIControle : MonoBehaviour
     {
         SceneManager.LoadScene(scene);
     }
+    public void PauseIngame()
+    {
+        GameManager.instance.PauseGame();
+    }
 }
