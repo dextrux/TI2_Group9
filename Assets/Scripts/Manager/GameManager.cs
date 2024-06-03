@@ -7,8 +7,6 @@ namespace Manager
     {
         public static GameManager instance;
         public bool Playing { get; private set; }
-        [SerializeField] private GameObject _gameOverScreen;
-        [SerializeField] private GameObject _inGameUI;
         private uint _footPrint;
         private void Awake()
         {
@@ -36,8 +34,8 @@ namespace Manager
         public void GameOver()
         {
             PauseGame();
-            _gameOverScreen.SetActive(true);
-            _inGameUI.SetActive(false);
+            //_gameOverScreen.SetActive(true);
+            //_inGameUI.SetActive(false);
             Debug.Log("Game Over");
         }
         public void AddPezinho()
