@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 8981813687691829372}
   - component: {fileID: -5759485227060938517}
   m_Layer: 0
-  m_Name: Tile_M_01
+  m_Name: ForestTileEasy01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
