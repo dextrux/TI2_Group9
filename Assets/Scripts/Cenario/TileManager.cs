@@ -5,47 +5,88 @@ namespace Scenario
 {
     public class TileManager : MonoBehaviour
     {
-        [SerializeField] private GameObject[] _tiles;
+        [SerializeField] private TileControl[] _tilesArea1;
+        [SerializeField] private TileControl[] _tilesArea2;
+        [SerializeField] private TileControl[] _tilesArea3;
+        [SerializeField] private TileControl[] _transitionTile;
+        [SerializeField] private TileControl _startTile;
         [SerializeField] private float _tileSize;
-        [SerializeField] private Transform _player;
         [SerializeField] private sbyte _tileQuantity;
-        private List<GameObject> _inactiveTiles;
+        [SerializeField] private sbyte _chanceArea1;
+        [SerializeField] private sbyte _chanceArea2;
+        [SerializeField] private sbyte _easyQuantity;
+        [SerializeField] private sbyte _mediumQuantity;
         private float _actualTilePosition;
-        void Start()
+        private sbyte _actualArea;
+        private sbyte _actualDifficulty;
+        private sbyte _newDifficulty;
+        private sbyte _minRange;
+        private sbyte _maxRange;
+        private int random;
+        internal int TileCount;
+        private void Start()
         {
-            _inactiveTiles = new List<GameObject>();
+            TileCount = 0;
             _actualTilePosition = 0;
-            FindTiles();
-            for (int i =  0; i < _tileQuantity; i++)
+            _actualArea = 0;
+            _actualDifficulty = 0;
+            _newDifficulty = 0;
+            _minRange = 0;
+            _maxRange = _easyQuantity;
+            _startTile.transform.position = new Vector3(0, 0, _actualTilePosition);
+            _startTile.gameObject.SetActive(true);
+            _actualTilePosition += _tileSize;
+            for (int i = 0; i < _tileQuantity; i++)
             {
-                SpawnTiles(Random.Range(0, _inactiveTiles.Count));
+                SpawnTiles();
             }
         }
         private void Update()
         {
-            if (_tiles.Length - _inactiveTiles.Count <= _tileQuantity)
+            CheckDifficulty();
+            if (_tileQuantity < TileCount) SpawnTiles();
+        }
+        public void SpawnTiles()
+        {
+            random = Random.Range(_minRange, _maxRange);
+            while (_tilesArea1[random].Active)
             {
-                SpawnTiles(Random.Range(0, _inactiveTiles.Count));
+                random++;
+                if (random >= _maxRange) random = _minRange;
             }
-        }
-        internal void DisableTile(GameObject tile)
-        {
-            _inactiveTiles.Add(tile);
-            tile.SetActive(false);
-        }
-        private void FindTiles()
-        {
-            foreach (GameObject tile in _tiles)
+            switch (_actualArea)
             {
-                DisableTile(tile);
+                case 0:
+                    _tilesArea1[random].transform.position = new Vector3(0, 0, _actualTilePosition);
+                    _tilesArea1[random].gameObject.SetActive(true);
+                    break;
+                case 1:
+                    _tilesArea2[random].transform.position = new Vector3(0, 0, _actualTilePosition);
+                    _tilesArea2[random].gameObject.SetActive(true);
+                    break;
+                case 2:
+                    _tilesArea3[random].transform.position = new Vector3(0, 0, _actualTilePosition);
+                    _tilesArea3[random].gameObject.SetActive(true);
+                    break;
             }
-        }
-        private void SpawnTiles(int position)
-        {
-            _inactiveTiles[position].transform.position = new Vector3(0, 0, (_actualTilePosition));
             _actualTilePosition += _tileSize;
-            _inactiveTiles[position].SetActive(true);
-            _inactiveTiles.Remove(_inactiveTiles[position]);
+        }
+        private void CheckDifficulty()
+        {
+            if (_newDifficulty != _actualDifficulty)
+            {
+                switch (_newDifficulty)
+                {
+                    case 1:
+                        _minRange = _easyQuantity;
+                        _maxRange = _mediumQuantity;
+                        break;
+                    case 2:
+                        _minRange = _mediumQuantity;
+                        _maxRange = (sbyte)_tilesArea1.Length;
+                        break;
+                }
+            }
         }
     }
 }
