@@ -31,13 +31,6 @@ namespace Manager
             Time.timeScale = 0;
             Playing = false;
         }
-        public void GameOver()
-        {
-            PauseGame();
-            //_gameOverScreen.SetActive(true);
-            //_inGameUI.SetActive(false);
-            Debug.Log("Game Over");
-        }
         public void AddPezinho()
         {
             _footPrint++;

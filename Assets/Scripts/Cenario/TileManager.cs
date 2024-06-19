@@ -5,10 +5,10 @@ namespace Scenario
 {
     public class TileManager : MonoBehaviour
     {
-        [SerializeField] private TileControl[] _tilesArea1;
-        [SerializeField] private TileControl[] _tilesArea2;
-        [SerializeField] private TileControl[] _tilesArea3;
-        [SerializeField] private TileControl[] _transitionTile;
+        public TileControl[] _tilesArea1;
+        public TileControl[] _tilesArea2;
+        public TileControl[] _tilesArea3;
+        public TileControl[] _transitionTile;
         [SerializeField] private TileControl _startTile;
         [SerializeField] private float _tileSize;
         [SerializeField] private sbyte _tileQuantity;
@@ -22,8 +22,8 @@ namespace Scenario
         private sbyte _newDifficulty;
         private sbyte _minRange;
         private sbyte _maxRange;
-        private int random;
-        internal int TileCount;
+        [SerializeField]private int random;
+        [SerializeField]internal int TileCount;
         private void Start()
         {
             TileCount = 0;
@@ -35,7 +35,6 @@ namespace Scenario
             _maxRange = _easyQuantity;
             _startTile.transform.position = new Vector3(0, 0, _actualTilePosition);
             _startTile.gameObject.SetActive(true);
-            _actualTilePosition += _tileSize;
             for (int i = 0; i < _tileQuantity; i++)
             {
                 SpawnTiles();
@@ -43,33 +42,42 @@ namespace Scenario
         }
         private void Update()
         {
-            CheckDifficulty();
-            if (_tileQuantity < TileCount) SpawnTiles();
+            //CheckDifficulty();
+            if (_tileQuantity > TileCount) SpawnTiles();
         }
         public void SpawnTiles()
         {
             random = Random.Range(_minRange, _maxRange);
-            while (_tilesArea1[random].Active)
-            {
-                random++;
-                if (random >= _maxRange) random = _minRange;
-            }
             switch (_actualArea)
             {
                 case 0:
-                    _tilesArea1[random].transform.position = new Vector3(0, 0, _actualTilePosition);
-                    _tilesArea1[random].gameObject.SetActive(true);
+                    if (_tilesArea1[random].Active == false)
+                    {
+                        _tilesArea1[random].transform.position = new Vector3(0, 0, _actualTilePosition);
+                        _tilesArea1[random].gameObject.SetActive(true);
+                        _actualTilePosition += _tileSize;
+                        TileCount++;
+                    }
                     break;
                 case 1:
-                    _tilesArea2[random].transform.position = new Vector3(0, 0, _actualTilePosition);
-                    _tilesArea2[random].gameObject.SetActive(true);
+                    if (_tilesArea2[random].Active == false)
+                    {
+                        _tilesArea2[random].transform.position = new Vector3(0, 0, _actualTilePosition);
+                        _tilesArea2[random].gameObject.SetActive(true);
+                        _actualTilePosition += _tileSize;
+                        TileCount++;
+                    }
                     break;
                 case 2:
-                    _tilesArea3[random].transform.position = new Vector3(0, 0, _actualTilePosition);
-                    _tilesArea3[random].gameObject.SetActive(true);
+                    if (_tilesArea3[random].Active == false)
+                    {
+                        _tilesArea3[random].transform.position = new Vector3(0, 0, _actualTilePosition);
+                        _tilesArea3[random].gameObject.SetActive(true);
+                        _actualTilePosition += _tileSize;
+                        TileCount++;
+                    }
                     break;
             }
-            _actualTilePosition += _tileSize;
         }
         private void CheckDifficulty()
         {
@@ -87,6 +95,10 @@ namespace Scenario
                         break;
                 }
             }
+        }
+        private void CheckUsable()
+        {
+
         }
     }
 }

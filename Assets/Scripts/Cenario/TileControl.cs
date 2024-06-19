@@ -7,6 +7,7 @@ namespace Scenario
         [SerializeField] private Transform _player;
         [SerializeField] private TileManager _tileManager;
         [SerializeField] private float _distanceToDisable;
+        [SerializeField] private sbyte _area;
         public bool Active;
         private void OnEnable()
         {
@@ -19,9 +20,9 @@ namespace Scenario
         }
         private void Update()
         {
-            if (_player.position.z - transform.position.z >= _distanceToDisable)
+            if (_player.position.z - transform.position.z>= _distanceToDisable)
             {
-                _tileManager.SpawnTiles();
+                gameObject.SetActive(false);
             }
         }
         private void OnDisable()

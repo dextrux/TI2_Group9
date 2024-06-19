@@ -9,7 +9,7 @@ namespace Player
         {
             if (other.CompareTag("Obstacle"))
             {
-                GameManager.instance.GameOver();
+                PlayingManager.Instance.GameOver();
             }
             else if (other.CompareTag("Collectable"))
             {
