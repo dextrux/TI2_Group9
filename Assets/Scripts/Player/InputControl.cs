@@ -20,7 +20,7 @@ namespace Player
         {
             if (_playingInput)
             {
-
+                PlayingGame();
             }
             else if (_menuInput)
             {
@@ -29,11 +29,8 @@ namespace Player
             if (Touch.activeFingers.Count == 1)
             {
                 Touch activeTouch = Touch.activeFingers[0].currentTouch;
-
-                //Debug.Log($"Phase: {activeTouch.phase} | Position: {activeTouch.startScreenPosition}");
                 Debug.Log(activeTouch.delta);
             }
-            //GetInput();
         }
         private void CaptureInput()
         {
@@ -57,53 +54,45 @@ namespace Player
                 }
             }
         }
+        private void PlayingGame()
+        {
+            if (Touch.activeFingers.Count == 1)
+            {
+                if (Touch.activeFingers[0].currentTouch.startTime - Touch.activeFingers[0].lastTouch.startTime < 0.5)
+                {
+                    Debug.Log("Ativação de Habilidade");
+                }
+                if (Touch.activeFingers[0].currentTouch.startScreenPosition.x > Touch.activeFingers[0].currentTouch.screenPosition.x)
+                {
+                    _playerMovement.ChangeLane(false);
+                }
+                else if (Touch.activeFingers[0].currentTouch.startScreenPosition.x < Touch.activeFingers[0].currentTouch.screenPosition.x)
+                {
+                    _playerMovement.ChangeLane(true);
+                }
+                else if (Touch.activeFingers[0].currentTouch.startScreenPosition.y > Touch.activeFingers[0].currentTouch.screenPosition.y)
+                {
+                    _playerMovement.Jump();
+                }
+                else if (Touch.activeFingers[0].currentTouch.startScreenPosition.y < Touch.activeFingers[0].currentTouch.screenPosition.y)
+                {
+                    _playerMovement.Slide();
+                }
+            }
+        }
         public void EnableMenuMode()
         {
             _menuInput = true;
             _playingInput = false;
         }
-        public void DisableMenuMode()
+        public void EnablePlayMode()
         {
             _menuInput = false;
-            _playingInput = false;
+            _playingInput = true;
         }
         public void ResetModelPosition()
         {
             _modelOnMenu.transform.rotation = Quaternion.LookRotation(new Vector3(0, 0, 0));
         }
-        /*
-        private void GetInput()
-        {
-            if (Input.touchCount > 0)
-            {
-                Touch firstTouch = Input.GetTouch(0);
-                if (firstTouch.phase == UnityEngine.TouchPhase.Began)
-                {
-                    startTouchPos = firstTouch.position;
-                    endTouchPos = firstTouch.position;
-                }
-                if (firstTouch.phase == UnityEngine.TouchPhase.Ended)
-                {
-                    endTouchPos = firstTouch.position;
-                    if (startTouchPos.x > endTouchPos.x)
-                    {
-                        _playerMovement.ChangeLane(false);
-                    }
-                    if (startTouchPos.x < endTouchPos.x)
-                    {
-                        _playerMovement.ChangeLane(true);
-                    }
-                    if (startTouchPos.y < endTouchPos.y)
-                    {
-                        _playerMovement.Jump();
-                    }
-                    if (startTouchPos.y > endTouchPos.y)
-                    {
-                        _playerMovement.Slide();
-                    }
-                }
-            }
-        
-        }*/
     }
 }

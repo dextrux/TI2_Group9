@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Cinemachine;
 namespace Scenario
 {
     public class TileManager : MonoBehaviour
@@ -22,8 +23,9 @@ namespace Scenario
         private sbyte _newDifficulty;
         private sbyte _minRange;
         private sbyte _maxRange;
-        [SerializeField]private int random;
-        [SerializeField]internal int TileCount;
+        [SerializeField] private int random;
+        [SerializeField] internal int TileCount;
+        [SerializeField] private CinemachineVirtualCamera _cam;
         private void Start()
         {
             TileCount = 0;
@@ -39,10 +41,11 @@ namespace Scenario
             {
                 SpawnTiles();
             }
+            _cam.Follow = PlayerCharacter.Instance.transform;
         }
         private void Update()
         {
-            //CheckDifficulty();
+            CheckDifficulty();
             if (_tileQuantity > TileCount) SpawnTiles();
         }
         public void SpawnTiles()

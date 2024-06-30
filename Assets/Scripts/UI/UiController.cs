@@ -14,6 +14,8 @@ public class UiController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _footPrintText;
     [SerializeField] private TextMeshProUGUI _punchText;
     [SerializeField] private TextMeshProUGUI _xpText;
+    [SerializeField] private GameObject _menuPanel;
+    [SerializeField] private GameObject _gamePanel;
     private void Awake()
     {
         if (Instance == null)
@@ -78,6 +80,18 @@ public class UiController : MonoBehaviour
     }
     public void LoadGameScene(int sceneToLoad)
     {
-        SceneManager.LoadScene(sceneToLoad);
+        switch (sceneToLoad)
+        {
+            case 0:
+                SceneManager.LoadScene("MainMenu");
+                _menuPanel.SetActive(true);
+                _gamePanel.SetActive(false);
+                break;
+            case 1:
+                SceneManager.LoadScene("GameScene");
+                _menuPanel.SetActive(false);
+                _gamePanel.SetActive(true);
+                break;
+        }
     }
 }

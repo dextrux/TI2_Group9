@@ -4,13 +4,14 @@ namespace Scenario
 {
     public class TileControl : MonoBehaviour
     {
-        [SerializeField] private Transform _player;
+        private Transform _player;
         [SerializeField] private TileManager _tileManager;
         [SerializeField] private float _distanceToDisable;
         [SerializeField] private sbyte _area;
         public bool Active;
         private void OnEnable()
         {
+            _player = PlayerCharacter.Instance.GetComponent<Transform>();
             Active = true;
             Transform[] _childrens = GetComponentsInChildren<Transform>();
             foreach (Transform t in _childrens)

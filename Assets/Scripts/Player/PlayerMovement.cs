@@ -17,23 +17,20 @@ namespace Player
         private float _jumpStartPosition;
         private Vector3 _targetPosition;
         private float _colliderStartHeight;
-        private Ray _ray;
-        private RaycastHit _hitinfo;
         private void Start()
         {
             _lane = 1;
             _colliderStartHeight = gameObject.GetComponent<BoxCollider>().size.y;
-            _ray = new Ray(transform.position, transform.up * -1);
         }
         private void Update()
         {
-            Jumping();
-            Sliding();
+            //Jumping();
+            //Sliding();
+            MoveBetweenLane();
         }
         private void FixedUpdate()
         {
-            _rigidBody.velocity = transform.forward * (_speed + (transform.position.z/20));
-            MoveBetweenLane();
+            SetVelocityPlayer();
         }
 
         internal void ChangeLane(bool goRight)
@@ -51,16 +48,19 @@ namespace Player
         }
         private void MoveBetweenLane()
         {
-            Vector3 targetPosition = transform.position.z * transform.forward + transform.position.y * transform.up;
             if (_lane == 0)
             {
-                targetPosition += Vector3.left * _distanceBetweenLane;
+                _targetPosition = new Vector3(-_distanceBetweenLane, transform.position.y, transform.position.z);
+            }
+
+            else if (_lane == 1)
+            {
+                _targetPosition = new Vector3(0,transform.position.y, transform.position.z);
             }
             else if (_lane == 2)
             {
-                targetPosition += Vector3.right * _distanceBetweenLane;
+                _targetPosition = new Vector3(_distanceBetweenLane, transform.position.y, transform.position.z);
             }
-            transform.position = targetPosition;
         }
         private void Jumping()
         {
@@ -74,7 +74,7 @@ namespace Player
                 else
                 {
                     _targetPosition.y = Mathf.Sin(ratio * Mathf.PI) * _jumpHeight;
-                    _rigidBody.Move(new Vector3(transform.position.x, _targetPosition.y, transform.position.z), Quaternion.identity);
+                    //_rigidBody.Move(new Vector3(transform.position.x, _targetPosition.y, transform.position.z), Quaternion.identity);
                 }
             }
         }
@@ -106,6 +106,11 @@ namespace Player
                 _isSliding = true;
                 gameObject.GetComponent<BoxCollider>().size = new Vector3(0, _colliderStartHeight / 2, 0);
             }
+        }
+        public void SetVelocityPlayer()
+        {
+            _targetPosition = transform.position + (Vector3.forward * _speed * Time.deltaTime);
+            transform.position = _targetPosition;
         }
     }
 }
