@@ -68,4 +68,16 @@ public class UiController : MonoBehaviour
         _punchText.text = EconomyManager.Instance.GetPunch().ToString();
         _xpText.text = EconomyManager.Instance.GetXp().ToString();
     }
+    public void NexChar()
+    {
+        PlayerCharacter.Instance.NextChar();
+    }
+    public void PrevChar()
+    {
+        PlayerCharacter.Instance.PreviousChar();
+    }
+    public void LoadGameScene(int sceneToLoad)
+    {
+        SceneManager.LoadScene(sceneToLoad);
+    }
 }
