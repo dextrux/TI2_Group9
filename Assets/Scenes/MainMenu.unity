@@ -3422,15 +3422,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Deslizar o dedo para os lados muda a linha que o personagem segue.
+  m_text: 'Slide your finger sideways to change the line the character follows.
 
-    Deslizar
-    pra cima faz o personagem pular.
-
-    Deslizar para baixo desliza.
-
-    Tocar
-    duas vezes na tela usa o poder especial.'
+    Collect
+    XP to buy footprints.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4d8c1c32316b13c48ac9544be68159c2, type: 2}
   m_sharedMaterial: {fileID: -2567418974580597446, guid: 4d8c1c32316b13c48ac9544be68159c2,
@@ -3458,7 +3453,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 88.55
+  m_fontSize: 100
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

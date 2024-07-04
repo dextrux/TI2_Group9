@@ -109,7 +109,7 @@ namespace Player
         {
             _speed = 0.2F;
             _lane = 1;
-            _actualLane = 1;
+            _actualLane = 1;    
             _endPosition = 0;
             _animator = PlayerCharacter.Instance.SelectChar(PlayerCharacter.Instance.GetActive()).GetComponent<Animator>();
             _animator.SetBool("Jogando", true);
