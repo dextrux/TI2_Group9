@@ -52,12 +52,12 @@ public class AudioManager : MonoBehaviour
     }
     public void AtualizarVolumeSFX(float valor)
     {
-        _sfxSrc.volume = valor;
+        _sfxSrc.volume = valor/10;
         SalvarVolumeSFX();
     }
     public void AtualizarVolumeBG(float valor)
     {
-        _bgMusicSrc.volume = valor;
+        _bgMusicSrc.volume = valor/10;
         SalvarVolumeBG();
     }
     public void SalvarVolumeBG()

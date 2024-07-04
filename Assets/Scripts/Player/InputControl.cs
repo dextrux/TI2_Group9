@@ -1,7 +1,5 @@
-using UnityEditor.Build;
 using UnityEngine;
 using UnityEngine.InputSystem.EnhancedTouch;
-using static UnityEngine.Rendering.DebugUI;
 using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 namespace Player
 {
@@ -10,7 +8,7 @@ namespace Player
         [SerializeField] private PlayerMovement _playerMovement;
         [SerializeField] private bool _menuInput;
         [SerializeField] private bool _playingInput;
-        [SerializeField] private GameObject _modelOnMenu;
+        [SerializeField] private PlayerLife _playerLife;
         private float timer;
         private void Awake()
         {
@@ -29,12 +27,7 @@ namespace Player
             if (Touch.activeFingers.Count == 1)
             {
                 Touch activeTouch = Touch.activeFingers[0].currentTouch;
-                Debug.Log(activeTouch.delta);
             }
-        }
-        private void CaptureInput()
-        {
-
         }
         private void HoldOnMenu()
         {
@@ -43,13 +36,14 @@ namespace Player
                 timer = Time.time + 0.05F;
                 if (Touch.activeFingers.Count == 1)
                 {
+                    Debug.Log(Touch.activeFingers[0].currentTouch.delta);
                     if (Touch.activeFingers[0].currentTouch.startScreenPosition.x > Touch.activeFingers[0].currentTouch.screenPosition.x)
                     {
-                        _modelOnMenu.transform.Rotate(new Vector3(0, (_modelOnMenu.transform.rotation.y + 10), 0));
+                        transform.Rotate(new Vector3(0, (transform.rotation.y + 10), 0));
                     }
                     else if (Touch.activeFingers[0].currentTouch.startScreenPosition.x < Touch.activeFingers[0].currentTouch.screenPosition.x)
                     {
-                        _modelOnMenu.transform.Rotate(new Vector3(0, (_modelOnMenu.transform.rotation.y - 10), 0));
+                        transform.Rotate(new Vector3(0, (transform.rotation.y - 10), 0));
                     }
                 }
             }
@@ -58,41 +52,51 @@ namespace Player
         {
             if (Touch.activeFingers.Count == 1)
             {
-                if (Touch.activeFingers[0].currentTouch.startTime - Touch.activeFingers[0].lastTouch.startTime < 0.5)
+                //Debug.Log("Started: " + Touch.activeFingers[0].currentTouch.startScreenPosition.x);
+                //if (Touch.activeFingers[0].currentTouch.ended) Debug.Log("Ended: " + Touch.activeFingers[0].currentTouch.screenPosition.x);
+                if (Touch.activeFingers[0].currentTouch.ended && Touch.activeFingers[0].currentTouch.startScreenPosition.x > Touch.activeFingers[0].currentTouch.screenPosition.x)
                 {
-                    Debug.Log("Ativação de Habilidade");
-                }
-                if (Touch.activeFingers[0].currentTouch.startScreenPosition.x > Touch.activeFingers[0].currentTouch.screenPosition.x)
-                {
+                    Debug.Log("Direita");
                     _playerMovement.ChangeLane(false);
                 }
-                else if (Touch.activeFingers[0].currentTouch.startScreenPosition.x < Touch.activeFingers[0].currentTouch.screenPosition.x)
+                if (Touch.activeFingers[0].currentTouch.ended && Touch.activeFingers[0].currentTouch.startScreenPosition.x < Touch.activeFingers[0].currentTouch.screenPosition.x)
                 {
+                    Debug.Log("Esquerda");
                     _playerMovement.ChangeLane(true);
                 }
-                else if (Touch.activeFingers[0].currentTouch.startScreenPosition.y > Touch.activeFingers[0].currentTouch.screenPosition.y)
+                /*if (Touch.activeFingers[0].currentTouch.startScreenPosition.y > Touch.activeFingers[0].currentTouch.screenPosition.y && Touch.activeFingers[0].currentTouch.delta.y > 4)
                 {
                     _playerMovement.Jump();
                 }
-                else if (Touch.activeFingers[0].currentTouch.startScreenPosition.y < Touch.activeFingers[0].currentTouch.screenPosition.y)
+                else if (Touch.activeFingers[0].currentTouch.startScreenPosition.y < Touch.activeFingers[0].currentTouch.screenPosition.y && Mathf.Abs(Touch.activeFingers[0].currentTouch.delta.x) > 4)
                 {
                     _playerMovement.Slide();
-                }
+                }*/
+            }
+            if (Touch.activeTouches.Count == 2)
+            {
+                Debug.Log("Ativação de Habilidade");
+            }
+            if (Touch.activeTouches.Count == 5)
+            {
+                _playerLife.enabled = false;
             }
         }
         public void EnableMenuMode()
         {
             _menuInput = true;
             _playingInput = false;
+            _playerLife.enabled = false;
         }
         public void EnablePlayMode()
         {
             _menuInput = false;
             _playingInput = true;
+            _playerLife.enabled = true;
         }
         public void ResetModelPosition()
         {
-            _modelOnMenu.transform.rotation = Quaternion.LookRotation(new Vector3(0, 0, 0));
+            transform.rotation = Quaternion.LookRotation(new Vector3(0, 0, 0));
         }
     }
 }

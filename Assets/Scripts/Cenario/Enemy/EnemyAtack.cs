@@ -21,7 +21,7 @@ namespace Scenario.Enemy
         {
             if (_player.position.z - transform.position.z <= 0 && _player.position.z - transform.position.z >= -1 && !_beingHitted)
             {
-                PlayingManager.Instance.GameOver();
+                UiController.Instance.GameOver();
             } else if (_player.position.z - transform.position.z <= 0 && _player.position.z - transform.position.z >= -3 && _beingHitted)
             {
                 _audioSource.Play();

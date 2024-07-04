@@ -1,3 +1,4 @@
+using Manager;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -16,6 +17,11 @@ public class UiController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _xpText;
     [SerializeField] private GameObject _menuPanel;
     [SerializeField] private GameObject _gamePanel;
+    [SerializeField] private GameObject _gameOverPanel;
+    [SerializeField] private TextMeshProUGUI _textCreature;
+    [SerializeField] private TextMeshProUGUI _footPrintInGameText;
+    [SerializeField] private TextMeshProUGUI _punchIngameText;
+    [SerializeField] private TextMeshProUGUI _xpIngameText;
     private void Awake()
     {
         if (Instance == null)
@@ -93,5 +99,28 @@ public class UiController : MonoBehaviour
                 _gamePanel.SetActive(true);
                 break;
         }
+    }
+    public void GameOver()
+    {
+        GameManager.instance.PauseGame();
+        _gameOverPanel.SetActive(true);
+        _gamePanel.SetActive(false);
+    }
+    public void UpdateTextCreature()
+    {
+        if (PlayerCharacter.Instance.GetActive() == 0)
+        {
+            _textCreature.text = "Skunk Ape";
+        }
+        else if (PlayerCharacter.Instance.GetActive() == 1)
+        {
+            _textCreature.text = "The Sasquatch";
+        }
+    }
+    public void UpdateTextInGame()
+    {
+        _footPrintInGameText.text = EconomyManager.Instance.GetFootPrint().ToString();
+        _punchIngameText.text = EconomyManager.Instance.GetPunch().ToString();
+        _xpIngameText.text = EconomyManager.Instance.GetXp().ToString();
     }
 }

@@ -9,7 +9,7 @@ namespace Player
         {
             if (other.CompareTag("Obstacle"))
             {
-                PlayingManager.Instance.GameOver();
+                UiController.Instance.GameOver();
             }
             else if (other.CompareTag("Collectable"))
             {
@@ -20,6 +20,10 @@ namespace Player
             {
 
             }
+        }
+        private void Update()
+        {
+            
         }
     }
 }

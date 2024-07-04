@@ -7,6 +7,7 @@ public class EconomyManager : MonoBehaviour
     [SerializeField] private int _footPrint;
     [SerializeField] private int _punch;
     [SerializeField] private int _xp;
+    [SerializeField] private bool _sasquatchEnable;
     private string _filePath;
     [System.Serializable]
     public class EconomyData
@@ -14,6 +15,7 @@ public class EconomyManager : MonoBehaviour
         public int FootPrint;
         public int Punch;
         public int Xp;
+        public bool SasquatchEnable;
     }
     void Awake()
     {
@@ -41,6 +43,10 @@ public class EconomyManager : MonoBehaviour
     {
         _xp += valor;
     }
+    public void BuySasquatch()
+    {
+        _sasquatchEnable = true;
+    }
     public int GetPunch()
     {
         return _punch;
@@ -53,6 +59,10 @@ public class EconomyManager : MonoBehaviour
     {
         return _footPrint;
     }
+    public bool getSasquatch()
+    {
+        return _sasquatchEnable;
+    }
     [ContextMenu("Salvar Jogo")]
     public void SaveEconomyData()
     {
@@ -60,7 +70,8 @@ public class EconomyManager : MonoBehaviour
         {
             FootPrint = _footPrint,
             Punch = _punch,
-            Xp = _xp
+            Xp = _xp,
+            SasquatchEnable = _sasquatchEnable
         };
 
         string json = JsonUtility.ToJson(data);
@@ -75,6 +86,7 @@ public class EconomyManager : MonoBehaviour
             _footPrint = data.FootPrint;
             _punch = data.Punch;
             _xp = data.Xp;
+            _sasquatchEnable = data.SasquatchEnable;
         }
     }
 }
