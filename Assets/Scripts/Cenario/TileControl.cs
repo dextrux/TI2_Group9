@@ -17,6 +17,10 @@ namespace Scenario
             foreach (Transform t in _childrens)
             {
                 t.gameObject.SetActive(true);
+                if (t.TryGetComponent(out ExpGroup group))
+                {
+                    group.SetActiveXp();
+                }
             }
         }
         private void Update()

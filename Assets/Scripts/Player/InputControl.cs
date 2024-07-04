@@ -36,7 +36,6 @@ namespace Player
                 timer = Time.time + 0.05F;
                 if (Touch.activeFingers.Count == 1)
                 {
-                    Debug.Log(Touch.activeFingers[0].currentTouch.delta);
                     if (Touch.activeFingers[0].currentTouch.startScreenPosition.x > Touch.activeFingers[0].currentTouch.screenPosition.x)
                     {
                         transform.Rotate(new Vector3(0, (transform.rotation.y + 10), 0));
