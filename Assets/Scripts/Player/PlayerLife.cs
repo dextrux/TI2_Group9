@@ -21,9 +21,5 @@ namespace Player
 
             }
         }
-        private void Update()
-        {
-            
-        }
     }
 }

@@ -32,6 +32,7 @@ public class PlayerCharacter : MonoBehaviour
         _active++;
         if (_active >= _characters.Length) _active = 0;
         _characters[_active].SetActive(true);
+        _characters[_active].GetComponent<Animator>().SetBool("Jogando", false);
     }
     public void PreviousChar()
     {
@@ -39,9 +40,14 @@ public class PlayerCharacter : MonoBehaviour
         if (_active == 0) _active = (sbyte)(_characters.Length - 1);
         else _active--;
         _characters[_active].SetActive(true);
+        _characters[_active].GetComponent<Animator>().SetBool("Jogando", false);
     }
     public int GetActive()
     {
         return _active;
+    }
+    public GameObject SelectChar(int index)
+    {
+        return _characters[index];
     }
 }

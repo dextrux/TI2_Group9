@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class UiController : MonoBehaviour
 {
@@ -103,6 +104,7 @@ public class UiController : MonoBehaviour
     public void GameOver()
     {
         GameManager.instance.PauseGame();
+        EconomyManager.Instance.SaveEconomyData();
         _gameOverPanel.SetActive(true);
         _gamePanel.SetActive(false);
     }
@@ -122,5 +124,9 @@ public class UiController : MonoBehaviour
         _footPrintInGameText.text = EconomyManager.Instance.GetFootPrint().ToString();
         _punchIngameText.text = EconomyManager.Instance.GetPunch().ToString();
         _xpIngameText.text = EconomyManager.Instance.GetXp().ToString();
+    }
+    public void UpdatePlayerPosition()
+    {
+        PlayerCharacter.Instance.transform.position = new Vector3(0, 0, -45);
     }
 }

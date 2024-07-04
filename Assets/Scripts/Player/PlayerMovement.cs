@@ -14,6 +14,7 @@ namespace Player
         [SerializeField] private float _downSpeed;
         [SerializeField] private bool _isSliding;
         [SerializeField] private float _slideDistance;
+        [SerializeField] private Animator _animator;
         private float _slideStartPosition;
         [SerializeField] private Vector3 _targetPosition;
         private float _colliderStartHeight;
@@ -98,10 +99,20 @@ namespace Player
         public void SetSpeedZero()
         {
             _speed = 0;
+            _lane = 1;
+            _actualLane = 1;
+            _endPosition = 0;
+            _animator = PlayerCharacter.Instance.SelectChar(PlayerCharacter.Instance.GetActive()).GetComponent<Animator>();
+            _animator.SetBool("Jogando", false);
         }
         public void SetSpeedNormal()
         {
             _speed = 0.2F;
+            _lane = 1;
+            _actualLane = 1;    
+            _endPosition = 0;
+            _animator = PlayerCharacter.Instance.SelectChar(PlayerCharacter.Instance.GetActive()).GetComponent<Animator>();
+            _animator.SetBool("Jogando", true);
         }
     }
 }
