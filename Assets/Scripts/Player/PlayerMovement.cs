@@ -3,6 +3,7 @@ namespace Player
 {
     public class PlayerMovement : MonoBehaviour
     {
+        public bool IsMoving;
         [SerializeField] private float _speed;
         [SerializeField] private Rigidbody _rigidBody;
         [SerializeField] private byte _lane; // 0: lane 1; 1: lane 2; 2: lane 3;
@@ -14,98 +15,93 @@ namespace Player
         [SerializeField] private bool _isSliding;
         [SerializeField] private float _slideDistance;
         private float _slideStartPosition;
-        private float _jumpStartPosition;
-        private Vector3 _targetPosition;
+        [SerializeField] private Vector3 _targetPosition;
         private float _colliderStartHeight;
-        private Ray _ray;
-        private RaycastHit _hitinfo;
+        private float _timer;
+        private float _actualLane;
+        private float _startTimer;
+        private float _startPositionSwipe;
+        private bool _isMoving;
+        private float _endPosition;
         private void Start()
         {
+            _timer = Time.time;
             _lane = 1;
+            _actualLane = 1;
+            _endPosition = 0;
+            _isMoving = false;
             _colliderStartHeight = gameObject.GetComponent<BoxCollider>().size.y;
-            _ray = new Ray(transform.position, transform.up * -1);
         }
         private void Update()
         {
-            Jumping();
-            Sliding();
+            if (_actualLane != _lane)
+            {
+                _startTimer = Time.time;
+                _startPositionSwipe = transform.position.x;
+                _actualLane = _lane;
+                _isMoving = true;
+                if (_lane == 0) _endPosition = -2.5f;
+                if (_lane == 1) _endPosition = 0;
+                if (_lane == 2) _endPosition = 2.5f;
+            }
+            if (_isMoving)
+            {
+                float distance = (Time.time - _startTimer) * 6;
+                float t = distance / _distanceBetweenLane;
+                _targetPosition.x = Mathf.Lerp(_startPositionSwipe, _endPosition, distance);
+                if (t >= 1) _isMoving = false;
+            }
         }
         private void FixedUpdate()
         {
-            _rigidBody.velocity = transform.forward * (_speed + (transform.position.z/20));
-            MoveBetweenLane();
+            if (IsMoving) MoveBetweenLane();
         }
 
         internal void ChangeLane(bool goRight)
         {
-            if (goRight && _lane < 2)
             {
-                _lane++;
-                AudioManager.Instance.TocarSFX(2);
-            }
-            if (!goRight && _lane > 0)
-            {
-                _lane--;
-                AudioManager.Instance.TocarSFX(2);
+                if (goRight && _lane < 2)
+                {
+                    _lane++;
+                    AudioManager.Instance.TocarSFX(2);
+                }
+                if (!goRight && _lane > 0)
+                {
+                    _lane--;
+                    AudioManager.Instance.TocarSFX(2);
+                }
             }
         }
         private void MoveBetweenLane()
         {
-            Vector3 targetPosition = transform.position.z * transform.forward + transform.position.y * transform.up;
+            Vector3 dir = transform.position;
             if (_lane == 0)
             {
-                targetPosition += Vector3.left * _distanceBetweenLane;
+                if (transform.position.x > -_distanceBetweenLane) dir = new Vector3(_targetPosition.x, transform.position.y, transform.position.z);
+            }
+            else if (_lane == 1)
+            {
+                if (transform.position.x > 0 || transform.position.x < 0) dir = new Vector3(_targetPosition.x, transform.position.y, transform.position.z);
             }
             else if (_lane == 2)
             {
-                targetPosition += Vector3.right * _distanceBetweenLane;
+                if (transform.position.x < _distanceBetweenLane) dir = new Vector3(_targetPosition.x, transform.position.y, transform.position.z);
             }
-            transform.position = targetPosition;
+            dir.z += 1 * _speed;
+            _rigidBody.MovePosition(dir);
         }
-        private void Jumping()
+        public void ResetChar()
         {
-            if (_isJumping)
-            {
-                float ratio = (transform.position.z - _jumpStartPosition) / _jumpLength;
-                if (ratio >= 1F)
-                {
-                    _isJumping = false;
-                }
-                else
-                {
-                    _targetPosition.y = Mathf.Sin(ratio * Mathf.PI) * _jumpHeight;
-                    _rigidBody.Move(new Vector3(transform.position.x, _targetPosition.y, transform.position.z), Quaternion.identity);
-                }
-            }
+            transform.position = Vector3.zero;
+            transform.rotation = Quaternion.identity;
         }
-        private void Sliding()
+        public void SetSpeedZero()
         {
-            if (_isSliding)
-            {
-                float ratio = (transform.position.z - _slideStartPosition) / _slideDistance;
-                if (ratio >= 1F)
-                {
-                    gameObject.GetComponent<BoxCollider>().size = new Vector3(0, _colliderStartHeight, 0);
-                    _isSliding = false;
-                }
-            }
+            _speed = 0;
         }
-        internal void Jump()
+        public void SetSpeedNormal()
         {
-            if (!_isJumping)
-            {
-                _jumpStartPosition = transform.position.z;
-                _isJumping = true;
-            }
-        }
-        internal void Slide()
-        {
-            if (!_isSliding)
-            {
-                _slideStartPosition = transform.position.z;
-                _isSliding = true;
-                gameObject.GetComponent<BoxCollider>().size = new Vector3(0, _colliderStartHeight / 2, 0);
-            }
+            _speed = 0.2F;
         }
     }
 }
